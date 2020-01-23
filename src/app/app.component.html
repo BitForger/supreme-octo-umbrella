@@ -1,9 +1,12 @@
-<mat-grid-list cols="1">
-  <mat-grid-tile [colspan]="1" [rowspan]="1">
+<div class="container">
+  <div class="row">
     <mat-list>
-      <mat-list-item *ngFor="let todo of placeholderTodos">
-        <app-todo [title]="todo.title" [priority]="todo.priority"></app-todo>
+      <mat-list-item *ngFor="let todo of todos">
+        <app-todo [name]="todo.name" [priority]="todo.priority"></app-todo>
       </mat-list-item>
     </mat-list>
-  </mat-grid-tile>
-</mat-grid-list>
+  </div>
+</div>
+<div class="button-overlay--wrapper">
+  <button mat-fab color="primary" (click)="openDialog()">+</button>
+</div>

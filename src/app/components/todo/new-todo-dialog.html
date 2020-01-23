@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>New Todo</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input type="text" matInput [(ngModel)]="data.name" placeholder="New Task">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select [(ngModel)]="data.priority" placeholder="Priority">
+      <mat-option value="high">
+        High
+      </mat-option>
+      <mat-option value="medium">
+        Medium
+      </mat-option>
+      <mat-option value="low">
+        Low
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div mat-dialog-actions>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button mat-button [mat-dialog-close]="{name: data.name, priority: data.priority}" cdkFocusInitial>Ok</button>
+  </div>
+</div>

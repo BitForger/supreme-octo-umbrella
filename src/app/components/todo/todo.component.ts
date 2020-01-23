@@ -8,7 +8,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class TodoComponent implements OnInit {
 
   @Input()
-  private title: string;
+  private name: string;
 
   @Input()
   private priority: number;

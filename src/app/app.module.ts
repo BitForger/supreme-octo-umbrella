@@ -1,23 +1,47 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppComponent } from './app.component';
+import {AppComponent, NewTodoDialogComponent} from './app.component';
 import { TodoComponent } from './components/todo/todo.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatGridListModule, MatListModule} from '@angular/material';
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatGridListModule,
+  MatInputModule,
+  MatListModule,
+  MatSelectModule
+} from '@angular/material';
+import {HttpClientModule} from '@angular/common/http';
+import {TodoService} from './services/todo/todo.service';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TodoComponent
+    TodoComponent,
+    NewTodoDialogComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatGridListModule,
     MatListModule,
+    HttpClientModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatInputModule,
+    MatSelectModule,
+    FormsModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    TodoService,
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    NewTodoDialogComponent,
+  ]
 })
 export class AppModule { }
