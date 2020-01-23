@@ -11,7 +11,7 @@ import {
   MatGridListModule,
   MatInputModule,
   MatListModule,
-  MatSelectModule
+  MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 import {HttpClientModule} from '@angular/common/http';
 import {TodoService} from './services/todo/todo.service';
@@ -21,7 +21,7 @@ import {FormsModule} from '@angular/forms';
   declarations: [
     AppComponent,
     TodoComponent,
-    NewTodoDialogComponent
+    NewTodoDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +34,8 @@ import {FormsModule} from '@angular/forms';
     MatDialogModule,
     MatInputModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
   ],
   providers: [
     TodoService,

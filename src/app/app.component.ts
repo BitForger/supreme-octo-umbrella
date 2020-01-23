@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
 import {TodoService} from './services/todo/todo.service';
 
 export interface DialogData {
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   name: string;
   priority: string;
 
-  constructor(public dialog: MatDialog, private readonly todoService: TodoService) {
+  constructor(public dialog: MatDialog, private readonly todoService: TodoService, private snackBar: MatSnackBar) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -46,7 +46,10 @@ export class AppComponent implements OnInit {
       console.log('dialog closed', result);
       if (result) {
         if (!('name' in result) || !result.name) {
-          // show error here
+          this.snackBar.open('You must specify a name to create a new task', 'Dismiss', {
+            duration: 10000,
+            verticalPosition: 'top',
+          });
         }
         if (!('priority' in result) || !result.priority) {
           result.priority = 'low';
@@ -58,7 +61,6 @@ export class AppComponent implements OnInit {
         this.todos.push({...result, id: response.id});
 
         this.filterTodos();
-        // place on page now
       }
     });
   }
