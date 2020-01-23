@@ -6,6 +6,7 @@
 
   .row {
     display: flex;
+    flex-flow: row wrap;
     flex: 1 1 100%;
   }
 }
@@ -16,4 +17,14 @@
   justify-content: flex-end;
   padding-left: 30px;
   padding-right: 30px;
+}
+
+.mat-list {
+  width: 100%;
+}
+
+app-todo {
+  display: block;
+  width: 100%;
+  flex: 1 0 100%;
 }

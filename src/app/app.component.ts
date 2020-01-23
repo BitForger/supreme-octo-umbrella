@@ -7,12 +7,6 @@ export interface DialogData {
   priority: string;
 }
 
-enum Priority {
-  low,
-  medium,
-  high
-}
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -26,14 +20,13 @@ export class AppComponent implements OnInit {
   priority: string;
 
   constructor(public dialog: MatDialog, private readonly todoService: TodoService, private snackBar: MatSnackBar) {
+    this.handlePriorityChange = this.handlePriorityChange.bind(this);
   }
 
   async ngOnInit(): Promise<void> {
     // load all todos here
     this.todos = await this.todoService.getAll().toPromise();
-    console.log('todos', this.todos);
     this.filterTodos();
-    console.log('todos', this.todos);
   }
 
   openDialog() {
@@ -56,13 +49,22 @@ export class AppComponent implements OnInit {
         }
 
         const response = await this.todoService.create(result.name, result.priority).toPromise();
-        console.log('response', response);
 
         this.todos.push({...result, id: response.id});
 
         this.filterTodos();
       }
     });
+  }
+
+  async handlePriorityChange({source, value}, id: string) {
+    const todo = this.todos.find(value1 => value1._id.toString() === id);
+    if (todo) {
+      todo.priority = value;
+      await this.todoService.update(todo).toPromise();
+      // The found object is mutable so changing the priority like done above only needs a re-filter done
+      this.filterTodos();
+    }
   }
 
   private filterTodos() {

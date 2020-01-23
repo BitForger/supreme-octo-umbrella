@@ -1,10 +1,17 @@
 <div class="todo">
   <div class="todo__header-wrapper">
-    <h2 class="todo__header">{{name}}</h2>
+    <h2 class="todo__header">{{todo.name}}</h2>
   </div>
+
   <div class="todo__priority-wrapper">
     <div class="todo__priority">
-<!--      TODO determine what to do about priority display here. Icons? -->
+      <mat-form-field>
+        <mat-select (selectionChange)="onPriorityChange($event, todo._id)" [value]="todo.priority">
+          <mat-option value="high">High</mat-option>
+          <mat-option value="medium">Medium</mat-option>
+          <mat-option value="low">Low</mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
 </div>

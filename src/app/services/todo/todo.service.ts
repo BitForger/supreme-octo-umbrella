@@ -23,4 +23,10 @@ export class TodoService {
   public getAll(): Observable<any> {
     return this.httpService.get(`${environment.apiUri}/todo`);
   }
+
+  public update(doc) {
+    return this.httpService.patch(`${environment.apiUri}/todo`, {
+      document: doc
+    });
+  }
 }

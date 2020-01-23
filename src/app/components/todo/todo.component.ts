@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {MatSelectChange} from '@angular/material';
 
 @Component({
   selector: 'app-todo',
@@ -8,14 +9,13 @@ import {Component, Input, OnInit} from '@angular/core';
 export class TodoComponent implements OnInit {
 
   @Input()
-  private name: string;
+  private todo;
 
   @Input()
-  private priority: number;
+  private onPriorityChange: ($event: MatSelectChange, id: any) => void;
 
   constructor() { }
 
   ngOnInit() {
   }
-
 }
