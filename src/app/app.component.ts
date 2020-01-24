@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
   priority: string;
 
   constructor(public dialog: MatDialog, private readonly todoService: TodoService, private snackBar: MatSnackBar) {
+    // Bind handlePriorityChange method to this context so we have access to values in this constructed class not the
+    //  child todo component class
     this.handlePriorityChange = this.handlePriorityChange.bind(this);
   }
 
@@ -30,11 +32,13 @@ export class AppComponent implements OnInit {
   }
 
   openNewTodoDialog() {
+    // create dialog
     const dialogRef = this.dialog.open(NewTodoDialogComponent, {
       width: '400px',
       data: {name: this.name, priority: this.priority}
     });
 
+    // subscribe to closed event and make decision on if we should fail
     dialogRef.afterClosed().subscribe(async result => {
       if (result) {
         if (!('name' in result) || !result.name) {
@@ -42,6 +46,7 @@ export class AppComponent implements OnInit {
             duration: 10000,
             verticalPosition: 'top',
           });
+          return false;
         }
         if (!('priority' in result) || !result.priority) {
           result.priority = 'low';
@@ -54,6 +59,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Function to pass into child component to handle the selection change event
+   */
   async handlePriorityChange({source, value}, id: string) {
     const todo = this.todos.find(value1 => value1._id.toString() === id);
     if (todo) {
@@ -64,6 +72,9 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Just sort the todos
+   */
   private filterTodos() {
     this.todos.sort((first, second) => {
       if (first.priority === second.priority) {
@@ -120,9 +131,9 @@ export class NewTodoDialogComponent {
   templateUrl: './git-bit-dun-dialog.html',
 })
 export class GitBitDunComponent {
-  timeLeft: number = (60 * 1000) * 30;
+  timeLeft: number = (60 * 1000) * 30; // 30 minutes
   onePercent = (((60 * 1000) * 30) / 100); // one percent of 30 minutes
-  timeLeftValue: number = this.timeLeft / this.onePercent;
+  timeLeftValue: number = this.timeLeft / this.onePercent; // find percentage to display in spinner
   constructor(public dialogRef: MatDialogRef<GitBitDunComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData) {
     const intervalRef = interval(1000).subscribe(value => {
@@ -130,7 +141,7 @@ export class GitBitDunComponent {
       this.timeLeftValue = this.timeLeft / this.onePercent;
 
       if (this.timeLeft === 0) {
-        intervalRef.unsubscribe();
+        intervalRef.unsubscribe(); // kill the interval here
         this.dialogRef.close();
       }
     });

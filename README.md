@@ -3,6 +3,12 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.
 
 ## Development server
+### Setup
+You're going to want to add a line to your environment.ts object with the uri for your api. It should look something like the following:
+```
+apiUri: 'http://localhost:3000'
+```
+**Make sure there's no trailing slash**.
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
