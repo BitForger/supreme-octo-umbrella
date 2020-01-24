@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import {AppComponent, NewTodoDialogComponent} from './app.component';
+import {AppComponent, GitBitDunComponent, NewTodoDialogComponent} from './app.component';
 import { TodoComponent } from './components/todo/todo.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -10,18 +10,20 @@ import {
   MatFormFieldModule,
   MatGridListModule,
   MatInputModule,
-  MatListModule,
+  MatListModule, MatProgressSpinnerModule,
   MatSelectModule, MatSnackBarModule
 } from '@angular/material';
 import {HttpClientModule} from '@angular/common/http';
 import {TodoService} from './services/todo/todo.service';
 import {FormsModule} from '@angular/forms';
+import {LuxonModule} from 'luxon-angular';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoComponent,
     NewTodoDialogComponent,
+    GitBitDunComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,9 @@ import {FormsModule} from '@angular/forms';
     MatInputModule,
     MatSelectModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    LuxonModule,
   ],
   providers: [
     TodoService,
@@ -43,6 +47,7 @@ import {FormsModule} from '@angular/forms';
   bootstrap: [AppComponent],
   entryComponents: [
     NewTodoDialogComponent,
+    GitBitDunComponent,
   ]
 })
 export class AppModule { }

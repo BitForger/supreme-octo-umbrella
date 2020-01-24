@@ -11,7 +11,7 @@ export class TodoService {
   constructor(private readonly httpService: HttpClient) {
   }
 
-  public create(name: string, priority: string): Observable<object> {
+  public create(name: string, priority: string): Observable<any> {
     return this.httpService.post(`${environment.apiUri}/todo`, {
       document: {
         name,

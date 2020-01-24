@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
 import {TodoService} from './services/todo/todo.service';
+import {interval} from 'rxjs';
 
 export interface DialogData {
   name: string;
@@ -14,7 +15,6 @@ export interface DialogData {
 })
 export class AppComponent implements OnInit {
   title = 'IBM-Challenge';
-
   todos: any[] = [];
   name: string;
   priority: string;
@@ -29,14 +29,13 @@ export class AppComponent implements OnInit {
     this.filterTodos();
   }
 
-  openDialog() {
+  openNewTodoDialog() {
     const dialogRef = this.dialog.open(NewTodoDialogComponent, {
       width: '400px',
       data: {name: this.name, priority: this.priority}
     });
 
     dialogRef.afterClosed().subscribe(async result => {
-      console.log('dialog closed', result);
       if (result) {
         if (!('name' in result) || !result.name) {
           this.snackBar.open('You must specify a name to create a new task', 'Dismiss', {
@@ -48,10 +47,8 @@ export class AppComponent implements OnInit {
           result.priority = 'low';
         }
 
-        const response = await this.todoService.create(result.name, result.priority).toPromise();
-
-        this.todos.push({...result, id: response.id});
-
+        const {status, id, document} = await this.todoService.create(result.name, result.priority).toPromise();
+        this.todos.push(document);
         this.filterTodos();
       }
     });
@@ -86,11 +83,27 @@ export class AppComponent implements OnInit {
       }
     });
   }
+
+  selectRandom() {
+    // select random todo
+    // show dialog
+    const randomTodoIndex = Math.floor(Math.random() * this.todos.length);
+    const randomTodo = this.todos[randomTodoIndex];
+
+    const dialogRef = this.dialog.open(GitBitDunComponent, {
+      width: '500px',
+      data: randomTodo
+    });
+
+    dialogRef.afterClosed().subscribe(value => {
+      this.snackBar.open('Congrats! You finished it');
+    });
+  }
 }
 
 @Component({
   selector: 'app-todo-dialog',
-  templateUrl: './components/todo/new-todo-dialog.html',
+  templateUrl: './new-todo-dialog.html',
 })
 export class NewTodoDialogComponent {
   constructor(public dialogRef: MatDialogRef<NewTodoDialogComponent>,
@@ -99,5 +112,27 @@ export class NewTodoDialogComponent {
 
   cancel() {
     this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'app-git-bit-dun',
+  templateUrl: './git-bit-dun-dialog.html',
+})
+export class GitBitDunComponent {
+  timeLeft: number = (60 * 1000) * 30;
+  onePercent = (((60 * 1000) * 30) / 100); // one percent of 30 minutes
+  timeLeftValue: number = this.timeLeft / this.onePercent;
+  constructor(public dialogRef: MatDialogRef<GitBitDunComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogData) {
+    const intervalRef = interval(1000).subscribe(value => {
+      this.timeLeft = (this.timeLeft - 1000);
+      this.timeLeftValue = this.timeLeft / this.onePercent;
+
+      if (this.timeLeft === 0) {
+        intervalRef.unsubscribe();
+        this.dialogRef.close();
+      }
+    });
   }
 }
