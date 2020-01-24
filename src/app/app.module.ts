@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import {AppComponent, GitBitDunComponent, NewTodoDialogComponent} from './app.component';
+import {AppComponent} from './app.component';
 import { TodoComponent } from './components/todo/todo.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
@@ -17,6 +17,8 @@ import {HttpClientModule} from '@angular/common/http';
 import {TodoService} from './services/todo/todo.service';
 import {FormsModule} from '@angular/forms';
 import {LuxonModule} from 'luxon-angular';
+import {NewTodoDialogComponent} from './components/misc/new-todo-dialog.component';
+import {GitBitDunComponent} from './components/misc/git-bit-dun.component';
 
 @NgModule({
   declarations: [

@@ -1,7 +1,8 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
+import {Component, OnInit} from '@angular/core';
+import {MatDialog, MatSnackBar} from '@angular/material';
 import {TodoService} from './services/todo/todo.service';
-import {interval} from 'rxjs';
+import {NewTodoDialogComponent} from './components/misc/new-todo-dialog.component';
+import {GitBitDunComponent} from './components/misc/git-bit-dun.component';
 
 export interface DialogData {
   name: string;
@@ -108,42 +109,6 @@ export class AppComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(value => {
       this.snackBar.open('Congrats! You finished it');
-    });
-  }
-}
-
-@Component({
-  selector: 'app-todo-dialog',
-  templateUrl: './new-todo-dialog.html',
-})
-export class NewTodoDialogComponent {
-  constructor(public dialogRef: MatDialogRef<NewTodoDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-  }
-
-  cancel() {
-    this.dialogRef.close();
-  }
-}
-
-@Component({
-  selector: 'app-git-bit-dun',
-  templateUrl: './git-bit-dun-dialog.html',
-})
-export class GitBitDunComponent {
-  timeLeft: number = (60 * 1000) * 30; // 30 minutes
-  onePercent = (((60 * 1000) * 30) / 100); // one percent of 30 minutes
-  timeLeftValue: number = this.timeLeft / this.onePercent; // find percentage to display in spinner
-  constructor(public dialogRef: MatDialogRef<GitBitDunComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: DialogData) {
-    const intervalRef = interval(1000).subscribe(value => {
-      this.timeLeft = (this.timeLeft - 1000);
-      this.timeLeftValue = this.timeLeft / this.onePercent;
-
-      if (this.timeLeft === 0) {
-        intervalRef.unsubscribe(); // kill the interval here
-        this.dialogRef.close();
-      }
     });
   }
 }
